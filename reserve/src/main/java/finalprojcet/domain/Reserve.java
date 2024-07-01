@@ -1,7 +1,6 @@
 package finalprojcet.domain;
 
 import finalprojcet.ReserveApplication;
-import finalprojcet.domain.ReserveCanceled;
 import finalprojcet.domain.Reserved;
 import java.time.LocalDate;
 import java.util.Date;
@@ -33,9 +32,6 @@ public class Reserve {
     public void onPostPersist() {
         Reserved reserved = new Reserved(this);
         reserved.publishAfterCommit();
-
-        ReserveCanceled reserveCanceled = new ReserveCanceled(this);
-        reserveCanceled.publishAfterCommit();
     }
 
     public static ReserveRepository repository() {
@@ -44,6 +40,16 @@ public class Reserve {
         );
         return reserveRepository;
     }
+
+    //<<< Clean Arch / Port Method
+    public void reserveCancel() {
+        //implement business logic here:
+
+        ReserveCanceled reserveCanceled = new ReserveCanceled(this);
+        reserveCanceled.publishAfterCommit();
+    }
+
+    //>>> Clean Arch / Port Method
 
     //<<< Clean Arch / Port Method
     public static void updateStatus(OutOfTicket outOfTicket) {

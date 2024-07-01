@@ -12,6 +12,12 @@ public class ReserveHateoasProcessor
 
     @Override
     public EntityModel<Reserve> process(EntityModel<Reserve> model) {
+        model.add(
+            Link
+                .of(model.getRequiredLink("self").getHref() + "/reservecancel")
+                .withRel("reservecancel")
+        );
+
         return model;
     }
 }
