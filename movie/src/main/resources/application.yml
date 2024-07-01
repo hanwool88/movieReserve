@@ -31,12 +31,12 @@ spring:
         event-in:
           group: movie
 #<<< EDA / Topic Name
-          destination: finalproject
+          destination: finalprojcet
 #>>> EDA / Topic Name
           contentType: application/json
         event-out:
 #<<< EDA / Topic Name
-          destination: finalproject
+          destination: finalprojcet
 #>>> EDA / Topic Name
           contentType: application/json
 
@@ -75,10 +75,10 @@ spring:
       bindings:
         event-in:
           group: movie
-          destination: finalproject
+          destination: finalprojcet
           contentType: application/json
         event-out:
-          destination: finalproject
+          destination: finalprojcet
           contentType: application/json
 
 
