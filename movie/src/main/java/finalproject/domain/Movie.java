@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import javax.persistence.*;
+
+import org.springframework.util.StringUtils;
+
 import lombok.Data;
 
 @Entity
@@ -54,7 +57,7 @@ public class Movie {
         repository().findById(reserved.getMovieId()).ifPresent(movie->{
             
             if(movie.getStock() >= reserved.getAmount()) {
-                
+                movie.setStock(movie.getStock() - reserved.getAmount());
                 repository().save(movie);
                 
                 TicketDecreased ticketDecreased = new TicketDecreased(movie);
@@ -74,28 +77,22 @@ public class Movie {
     //>>> Clean Arch / Port Method
     //<<< Clean Arch / Port Method
     public static void increaseTicket(ReserveCanceled reserveCanceled) {
-        //implement business logic here:
-
-        /** Example 1:  new item 
-        Movie movie = new Movie();
-        repository().save(movie);
-
-        TicketIncreased ticketIncreased = new TicketIncreased(movie);
-        ticketIncreased.publishAfterCommit();
-        */
-
-        /** Example 2:  finding and process
         
-        repository().findById(reserveCanceled.get???()).ifPresent(movie->{
+        repository().findById(reserveCanceled.getMovieId()).ifPresent(movie->{
             
-            movie // do something
-            repository().save(movie);
-
-            TicketIncreased ticketIncreased = new TicketIncreased(movie);
-            ticketIncreased.publishAfterCommit();
+            if(reserveCanceled.getReserveDate().compareTo(movie.getDate()) > 0) {
+                return;
+            }
+            else {
+                movie.setStock(movie.getStock() + reserveCanceled.getAmount());
+                repository().save(movie);
+    
+                TicketIncreased ticketIncreased = new TicketIncreased(movie);
+                ticketIncreased.publishAfterCommit();
+            }
 
          });
-        */
+        
 
     }
     //>>> Clean Arch / Port Method
